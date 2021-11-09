@@ -26,3 +26,17 @@ Function.prototype.bind = function(thisObj) {
   }
   return Bound
 }
+Function.prototype.bind = function(thisObj) {
+  if (typeof this !== 'function') {
+    throw new TypeError('error')
+  }
+  const self = this;
+  const arges = [].slice.call(arguments, 1);
+  function Bound() {
+    return self.apply(this instanceof Bound ? this : thisObj, arges.concat([].slice.apply(arguments)))
+  }
+  if (this.prototype) {
+    Bound.prototype = Object.create(this.prototype)
+  }
+  return Bound
+}
