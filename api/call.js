@@ -13,8 +13,16 @@ Function.prototype.myCall = function (content, ...aergs) {
 fun.call(obj, args);
 Function.prototype._call = function (ctx, args) {
   ctx = ctx || window;
-  let obj = {};
-  obj.fn = this;
-  delete obj.fn;
-  return obj.fn(...args);
+  ctx.fn = this;
+  delete ctx.fn;
+  return ctx.fn(...args);
 };
+
+
+Function.prototype.call1 = function (ctx, args) {
+  ctx = ctx || window;
+  ctx.fn = this;
+  r = ctx.fn(...args);
+  delete ctx.fn;
+  return r;
+}

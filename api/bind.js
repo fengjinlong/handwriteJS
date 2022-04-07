@@ -61,3 +61,20 @@ fun.prototype._bind = function (thisObj, ...args) {
   }
   return bound;
 };
+
+Function.prototype._bind = function (thisObj, ...args) {
+  if (typeof this !== "function") {
+    return new TypeError("err");
+  }
+
+  let fn = this;
+  const bound = () => {
+    let con = fn instanceof bound ? fn : thisObj;
+    let args = args.concat(...arguments);
+    fn.apply(con, args);
+  };
+  if (this.prototype) {
+    Object.setPrototypeOf(bound, this.prototype);
+  }
+  return bound;
+};
